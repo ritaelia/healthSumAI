@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HealthSum AI – Smarter Summaries, Better Patient Care</title>
+  <meta name="description" content="HealthSum AI: summarize health records, surface critical alerts, and integrate with FHIR/SMART for faster clinical decisions." />
+  <meta property="og:title" content="HealthSum AI" />
+  <meta property="og:description" content="Smarter summaries. Better patient care. Secure, FHIR-ready." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#4B0082" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%234B0082' d='M32 6a4 4 0 014 4v8h8a4 4 0 110 8h-8v8a4 4 0 11-8 0v-8h-8a4 4 0 110-8h8V10a4 4 0 014-4z'/%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --indigo:#4B0082; /* primary */
+      --blue:#007BFF;   /* accents */
+      --green:#28A745;  /* success */
+      --ink:#111827;    /* text */
+      --muted:#6B7280;  /* secondary text */
+      --bg:#ffffff;
+      --card:#f7f7fb;
+      --ring: 0 0 0 4px color-mix(in oklab, var(--blue) 25%, transparent);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial, "Apple Color Emoji","Segoe UI Emoji"; color:var(--ink); background:var(--bg);
+      line-height:1.55; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    a{color:var(--blue); text-decoration:none}
+    a:focus{outline: none; box-shadow: var(--ring)}
+    .container{width:min(1120px, 92vw); margin-inline:auto}
+    .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.9rem 1.2rem; border-radius:999px; font-weight:600; border:1px solid transparent; cursor:pointer}
+    .btn:focus-visible{outline:none; box-shadow:var(--ring)}
+    .btn-primary{background:linear-gradient(135deg,var(--indigo),var(--blue)); color:#fff}
+    .btn-outline{background:transparent; border-color:var(--blue); color:var(--blue)}
+    .btn-ghost{background:transparent; color:#fff}
+    .pill{display:inline-block; padding:.35rem .7rem; border-radius:999px; font-size:.8rem; background:#EEF2FF; color:var(--indigo); font-weight:600}
+
+    /* Navbar */
+    header{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.9); backdrop-filter:saturate(1.2) blur(8px); border-bottom:1px solid #eee}
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:.9rem 0}
+    /*.brand{display:flex; align-items:center; gap:.7rem; font-weight:800; letter-spacing:.2px}*/
+    .logo{width:28px; height:28px; display:inline-grid; place-items:center; border-radius:8px; background:var(--indigo)}
+    .logo svg{width:18px; height:18px; color:#fff}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:40px;height:40px;border-radius:10px}
+    .brand span{font-weight:800;font-size:18px;letter-spacing:.2px}
+    .navlinks{display:flex; gap:1rem; align-items:center}
+    .navlinks a{color:var(--ink); padding:.5rem .75rem; border-radius:10px}
+    .navlinks a:hover{background:#f0f2ff}
+    .hamburger{display:none; background:none; border:0; padding:.4rem}
+
+    /* Hero */
+    .hero{padding: clamp(2rem, 5vw, 4rem) 0; background:linear-gradient(180deg, #f5f3ff 0%, #ffffff 40%)}
+    .hero-grid{display:grid; grid-template-columns: 1.15fr 1fr; gap:clamp(1.5rem,4vw,3rem); align-items:center}
+    .hero h1{font-size:clamp(2rem, 4vw, 3.2rem); line-height:1.1; margin:.25rem 0}
+    .hero p{color:var(--muted); font-size:1.05rem}
+    .hero .actions{display:flex; gap:.8rem; flex-wrap:wrap; margin-top:1rem}
+    .mock{
+      background:conic-gradient(from 210deg at 60% 30%, #ebf2ff, #eef5ff, #f5f3ff, #ffffff);
+      border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 20px 40px rgba(0,0,0,.06);
+      padding:1rem; position:relative; overflow:hidden
+    }
+    .mock .status{display:flex; gap:.5rem; margin-bottom:.8rem}
+    .dot{width:10px; height:10px; border-radius:50%}
+    .dot.blue{background:var(--blue)}
+    .dot.green{background:var(--green)}
+    .dot.indigo{background:var(--indigo)}
+    .card{background:var(--card); border:1px solid #ececf6; border-radius:16px; padding:1rem}
+
+    /* Features */
+    .section{padding: clamp(2.25rem, 6vw, 4.5rem) 0}
+    .section h2{font-size:clamp(1.6rem, 3vw, 2.2rem); margin:0 0 .6rem}
+    .features{display:grid; grid-template-columns: repeat(4, 1fr); gap:1rem}
+    .feature{border-radius:16px; background:#fff; border:1px solid #ececf6; padding:1.1rem}
+    .feature h3{margin:.4rem 0 .3rem; font-size:1.05rem}
+    .feature p{margin:0; color:var(--muted); font-size:.98rem}
+    .icon{width:38px; height:38px; border-radius:10px; display:grid; place-items:center; background:#eef2ff; color:var(--indigo)}
+
+    /* Persona */
+    .persona{display:grid; grid-template-columns: 1fr 1fr; gap:1.2rem}
+    .ticks{display:grid; gap:.5rem; color:var(--muted)}
+
+    /* Preview */
+    .tabs{display:flex; gap:.4rem; flex-wrap:wrap; margin-top:.6rem}
+    .tab{padding:.45rem .8rem; border:1px solid #e5e7eb; border-radius:999px; font-size:.9rem; color:#374151}
+    .tab.active{background:var(--indigo); border-color:var(--indigo); color:#fff}
+
+    /* CTA */
+    .cta{background:linear-gradient(135deg, var(--indigo), #2f3ab2); color:#fff; border-radius:24px; padding:clamp(1.25rem, 4vw, 2rem)}
+
+    /* Footer */
+    footer{border-top:1px solid #eee; padding:2rem 0; color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .hero-grid{grid-template-columns: 1fr}
+      .features{grid-template-columns: repeat(2, 1fr)}
+      .persona{grid-template-columns: 1fr}
+      .navlinks{display:none}
+      .hamburger{display:inline-grid; place-items:center; border-radius:10px}
+      .mobile-menu{display:none; flex-direction:column; gap:.4rem; padding:.5rem 0}
+      .mobile-menu a{padding:.6rem .75rem; border-radius:10px}
+      .mobile-menu.open{display:flex}
+    }
+    @media (max-width: 520px){
+      .features{grid-template-columns: 1fr}
+    }
+    @media (min-width: 520px){
+      .mobile-menu{display:none}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header>
+    <div class="container nav" role="navigation" aria-label="Primary">
+      <div class="brand">
+        <!-- Replace src with your final logo file path -->
+        <img src="images/healthSum_Icon.jpg" alt="HealthSum AI logo" />
+        <span>HealthSum AI</span>
+      </div>
+      <nav class="navlinks" aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#persona">Use Case</a>
+        <a href="#preview">Preview</a>
+        <a href="#contact">Contact</a>
+        <a class="btn btn-primary" href="#try">Try the App</a>
+      </nav>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16" stroke="#111827" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="container mobile-menu" id="menu">
+      <a href="#features">Features</a>
+      <a href="#persona">Use Case</a>
+      <a href="#preview">Preview</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn-outline" href="#try">Try the App</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="pill">FHIR-ready • HIPAA-style safeguards</span>
+        <h1>HealthSum AI, <br/>Smarter Summaries. Better Patient Care.</h1>
+        <p>Let AI scan and summarize medical records, flag critical alerts, and surface what matters during a consultation. Reduce prep time and prevent missed results.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#try">Get Started</a>
+          <a class="btn btn-outline" href="#demo">Watch Demo</a>
+        </div>
+        <p style="margin-top:.75rem; color:var(--muted); font-size:.9rem">• 40% Time Saved   • 95% Summary Accuracy   • 80% Improved Patient Experience</p>
+      </div>
+      <div class="mock" aria-label="Product mockup">
+        <img src="./images/pic2.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" height="600"
+            loading="lazy">
+        <!--<div class="status" aria-hidden="true">
+          <span class="dot blue"></span>
+          <span class="dot green"></span>
+          <span class="dot indigo"></span>
+        </div>
+        <div class="card" style="margin-bottom:.8rem">
+          <strong>Patient Summary (Auto‑generated)</strong>
+          <p style="margin:.4rem 0 0; color:var(--muted)">Type 2 diabetes (controlled), HTN; most recent A1c 6.8% (Aug 2025). No reported hypoglycemia. Consider statin titration.</p>
+        </div>
+        <div class="card" style="display:grid; grid-template-columns:1fr 1fr; gap:.8rem">
+          <div>
+            <strong style="color: red">Critical Alerts</strong>
+            <ul style="margin:.4rem 0 0; padding-left:1rem; color:var(--muted)">
+              <li>Creatinine ↑ since last visit</li>
+              <li>Missed retinopathy screening</li>
+            </ul>
+          </div>
+          <div>
+            <strong style="color: #28A745">Recommendations</strong>
+            <ul style="margin:.4rem 0 0; padding-left:1rem; color:var(--muted)">
+              <li>Order microalbumin</li>
+              <li>Schedule eye exam</li>
+            </ul>
+          </div>
+        </div>-->
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2>Why clinicians love HealthSum AI</h2>
+      <p style="color:var(--muted); margin:0 0 1rem">Purpose‑built for family physicians and clinics.
+      </p>
+      <div class="features">
+        <article class="feature">
+          <span class="icon" aria-hidden="true">📑</span>
+          <h3>Automated Summaries</h3>
+          <p>Extract diagnoses, meds, labs, allergies and encounter notes into concise, readable briefs.</p>
+        </article>
+        <article class="feature">
+          <span class="icon" aria-hidden="true">🚨</span>
+          <h3>Critical Alerts</h3>
+          <p>Surface abnormal trends and overdue screenings so nothing slips through the cracks.</p>
+        </article>
+        <article class="feature">
+          <span class="icon" aria-hidden="true">🔒</span>
+          <h3>Multiformat ingestion</h3>
+          <p>Upload PDFs or paste notes. OCR option for scans. Supports longitudinal timelines across documents.</p>
+        </article>
+        <article class="feature">
+          <span class="icon" aria-hidden="true">🔒</span>
+          <h3>Analytics Dashboard</h3>
+          <p>Upload PDFs or paste notes. OCR option for scans. Supports longitudinal timelines across documents.</p>
+        </article>
+        <article class="feature">
+          <span class="icon" aria-hidden="true">🔗</span>
+          <h3>FHIR-Ready</h3>
+          <p>Export key entities (conditions, medications, observations) as FHIR resources to integrate downstream.</p>
+        </article>
+        <article class="feature">
+          <span class="icon" aria-hidden="true">🔒</span>
+          <h3>Secure by Design</h3>
+          <p>Encryption in transit & at rest, least‑privilege access, and detailed logging.</p>
+        </article>
+        <article class="feature">
+          <span class="icon" aria-hidden="true">🔗</span>
+          <h3>Fast integration</h3>
+          <p>Simple API for EHR portals, inbox tools, or custom dashboards. Works alongside your current workflow.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof -->
+<section id="social" class="social-proof">
+  <div class="container">
+    <h2>Why this matters</h2>
+    <p style="color:var(--muted)">
+      Doctors spend an average of 16 minutes reviewing charts per patient,
+      and 40% report burnout linked to information overload.
+    </p>
+
+    <!-- Endorsements / Logos -->
+    <div class="logos" style="margin:1.2rem 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:1rem; align-items:center;">
+      <img src="images/ACCES_Employment_logo.png" alt="Women in Tech Cohort"/>
+      <img src="images/prepr.png" alt="Prepr Labs"/>
+      <img src="images/hipaa.jpg" alt="HIPAA Compliant"/>
+      <img src="images/phipa.png" alt="PHIPA Compliant"/>
+      <img src="images/SMART-on-FHIR-Technosoft.png" alt="SMART On FHIR"/>
+    </div>
+
+    <!-- Expert Quote -->
+    <div class="testimonial">
+      <strong>Dr. Rana, Family Physician</strong>
+      <p>“If this assistant works as planned, it could save me hours of prep each week.”</p>
+      <strong>Dr. Shaun, Family Physician</strong>
+      <p>“If this assistant works as planned, it could save me hours of prep each week.”</p>
+    </div>
+
+    <!-- Early Access Proof -->
+    <div style="margin-top:1rem; text-align:center;">
+      <p><strong>Join our early access waitlist</strong> — 50+ clinicians have already signed up.</p>
+      <a class="btn btn-primary" href="#try">Request Early Access</a>
+    </div>
+  </div>
+</section>
+
+  <!-- Persona / Use Case -->
+  <section id="persona" class="section" style="background:#fafaff">
+    <div class="container persona">
+      <div>
+        <h2>Built for busy doctors managing 1000+ patients</h2>
+        <div class="ticks">
+          <div>✅ Save 30–40% consultation prep time</div>
+          <div>✅ Prevent missed results & duplications</div>
+          <div>✅ Works on desktop and mobile</div>
+        </div>
+      </div>
+      <div class="card">
+        <strong>Time saved this week</strong>
+        <div style="margin-top:.6rem; height:10px; background:#e5e7eb; border-radius:999px; overflow:hidden">
+          <div style="width:68%; height:100%; background:var(--green)"></div>
+        </div>
+        <p style="margin:.4rem 0 0; color:var(--muted); font-size:.95rem">68% of targeted prep time saved across 12 consults.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preview / Tabs -->
+  <section id="preview" class="section">
+    <div class="container">
+      <h2>Product preview</h2>
+      <div class="tabs" role="tablist" aria-label="Product views">
+        <button class="tab active" role="tab" aria-selected="true">Dashboard</button>
+        <button class="tab" role="tab" aria-selected="false">Patient View</button>
+        <button class="tab" role="tab" aria-selected="false">Alerts</button>
+      </div>
+      <div class="card" style="margin-top:.8rem">
+        <p style="margin:0; color:var(--muted)">Embed a screenshot or live iframe of your app prototype here.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="try" class="section">
+    <div class="container cta">
+      <div style="display:grid; gap:1rem; align-items:center; grid-template-columns: 1.2fr .8fr">
+        <div>
+          <h2 style="margin:.2rem 0">Ready to transform patient care with AI?</h2>
+          <p style="margin:.2rem 0; opacity:.9">Join our pilot to try the App with real workflows. No vendor lock‑in.</p>
+          <div class="actions">
+            <a class="btn btn-ghost" href="#contact">Request Pilot</a>
+            <a class="btn btn-outline" href="#demo">See a Demo</a>
+          </div>
+        </div>
+        <form id="contact" class="card" onsubmit="event.preventDefault(); submitLead();" aria-label="Request access form">
+          <label for="name">Full name</label>
+          <input id="name" name="name" required placeholder="Dr. Jane Doe" style="margin:.35rem 0 1rem; width:100%; padding:.8rem; border-radius:10px; border:1px solid #d1d5db" />
+          <label for="email">Work email</label>
+          <input id="email" name="email" type="email" required placeholder="jane@exampleclinic.ca" style="margin:.35rem 0 1rem; width:100%; padding:.8rem; border-radius:10px; border:1px solid #d1d5db" />
+          <label for="org">Clinic / Organization</label>
+          <input id="org" name="org" placeholder="Maple Family Health" style="margin:.35rem 0 1rem; width:100%; padding:.8rem; border-radius:10px; border:1px solid #d1d5db" />
+          <button class="btn btn-primary" type="submit" style="width:100%">Request Access</button>
+          <p id="form-msg" role="status" style="margin:.6rem 0 0; font-size:.93rem; color:#e5e7eb"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <footer>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap">
+      <div>
+      <div class="brand" style="margin-bottom:8px">
+        <img src="images/healthSum_Icon.jpg" alt="HealthSum AI" />
+        <span>HealthSum AI</span>
+      </div>
+      <small>Copyright © <span id="year"></span> All rights reserved.</small>
+      </div>
+      <div style="display:flex; gap:1rem">
+        <div>
+          <strong>Product</strong>
+          <div><a href="#features">Features</a></div>
+          <div><a href="#preview">Preview</a></div>
+        </div>
+        <div>
+          <strong>Company</strong>
+          <div><a href="#contact">Contact</a></div>
+          <div><a href="#social">FAQ</a></div>
+        </div>
+        <div>
+          <strong>Legal</strong>
+          <div><a href="#">Privacy</a></div>
+          <div><a href="#">Terms</a></div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    const btn = document.querySelector('.hamburger');
+    const menu = document.getElementById('menu');
+    if (btn && menu){
+      btn.addEventListener('click', ()=>{
+        const open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    }
+
+    // Simple lead form (demo only)
+    function submitLead(){
+      const msg = document.getElementById('form-msg');
+      msg.style.color = '#D1FAE5';
+      msg.textContent = 'Thanks! We\'ll reach out shortly.';
+    }
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
