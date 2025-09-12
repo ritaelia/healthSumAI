@@ -11,7 +11,9 @@
   <meta name="theme-color" content="#4B0082" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%234B0082' d='M32 6a4 4 0 014 4v8h8a4 4 0 110 8h-8v8a4 4 0 11-8 0v-8h-8a4 4 0 110-8h8V10a4 4 0 014-4z'/%3E%3C/svg%3E" />
+  <!-- Favicon / Tab Logo -->
+  <link rel="icon" href="images/healthSum_Icon.jpg" type="image/jpg" />
+  <!--<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%234B0082' d='M32 6a4 4 0 014 4v8h8a4 4 0 110 8h-8v8a4 4 0 11-8 0v-8h-8a4 4 0 110-8h8V10a4 4 0 014-4z'/%3E%3C/svg%3E" />-->
   <style>
     :root{
       --indigo:#4B0082; /* primary */
@@ -94,6 +96,8 @@
 
     /* Footer */
     footer{border-top:1px solid #eee; padding:2rem 0; color:var(--muted)}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:18px}
+    @media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
 
     /* Responsive */
     @media (max-width: 960px){
@@ -196,9 +200,9 @@
       </p>
       <div class="features">
         <article class="feature">
-          <span class="icon" aria-hidden="true">📑</span>
-          <h3>Automated Summaries</h3>
-          <p>Extract diagnoses, meds, labs, allergies and encounter notes into concise, readable briefs.</p>
+          <span class="icon" aria-hidden="true">📝</span>
+          <h3>Smart Summaries</h3>
+          <p>Turn lengthy PDFs, notes, and reports into structured, one-minute summaries that highlight what matters most.</p>
         </article>
         <article class="feature">
           <span class="icon" aria-hidden="true">🚨</span>
@@ -206,19 +210,24 @@
           <p>Surface abnormal trends and overdue screenings so nothing slips through the cracks.</p>
         </article>
         <article class="feature">
-          <span class="icon" aria-hidden="true">🔒</span>
+          <span class="icon" aria-hidden="true">👤</span>
+          <h3>Patient Profile Dashboard</h3>
+          <p>Access an organized view of patient information and critical flags with real-time update timestamps.</p>
+        </article>
+        <article class="feature">
+          <span class="icon" aria-hidden="true">📂</span>
           <h3>Multiformat ingestion</h3>
           <p>Upload PDFs or paste notes. OCR option for scans. Supports longitudinal timelines across documents.</p>
         </article>
         <article class="feature">
-          <span class="icon" aria-hidden="true">🔒</span>
-          <h3>Analytics Dashboard</h3>
-          <p>Upload PDFs or paste notes. OCR option for scans. Supports longitudinal timelines across documents.</p>
+          <span class="icon" aria-hidden="true">⏱</span>
+          <h3>Automated Test Result Handling</h3>
+          <p>Eliminate manual tracking, new test results are automatically summarized and notified via alerts or email.</p>
         </article>
         <article class="feature">
-          <span class="icon" aria-hidden="true">🔗</span>
-          <h3>FHIR-Ready</h3>
-          <p>Export key entities (conditions, medications, observations) as FHIR resources to integrate downstream.</p>
+          <span class="icon" aria-hidden="true">💬</span>
+          <h3>Interactive Chatbot Assistant</h3>
+          <p>Ask focused questions like “Show me only the heart problems” and get targeted summaries on demand.</p>
         </article>
         <article class="feature">
           <span class="icon" aria-hidden="true">🔒</span>
@@ -235,7 +244,7 @@
   </section>
 
   <!-- Social Proof -->
-<section id="social" class="social-proof">
+<section id="social" class="section">
   <div class="container">
     <h2>Why this matters</h2>
     <p style="color:var(--muted)">
@@ -255,9 +264,15 @@
     <!-- Expert Quote -->
     <div class="testimonial">
       <strong>Dr. Rana, Family Physician</strong>
-      <p>“If this assistant works as planned, it could save me hours of prep each week.”</p>
-      <strong>Dr. Shaun, Family Physician</strong>
-      <p>“If this assistant works as planned, it could save me hours of prep each week.”</p>
+      <p>“If this application works as planned, it could save me hours of prep each week.”</p>
+    </div>
+    <div class="testimonial">
+      <strong>Dr. Alvarez, Internist</strong>
+      <p>“Summaries like this would help reduce decision fatigue and keep focus on patient care.”</p>
+    </div>
+    <div class="testimonial">
+      <strong>Prof. Chen, Health Informatics</strong>
+      <p>“Integrating AI summarization into EHRs is the next step in improving physician workflow.”</p>
     </div>
 
     <!-- Early Access Proof -->
@@ -272,11 +287,14 @@
   <section id="persona" class="section" style="background:#fafaff">
     <div class="container persona">
       <div>
-        <h2>Built for busy doctors managing 1000+ patients</h2>
+        <h2>Built for busy doctors managing 100+ patients</h2>
         <div class="ticks">
-          <div>✅ Save 30–40% consultation prep time</div>
-          <div>✅ Prevent missed results & duplications</div>
-          <div>✅ Works on desktop and mobile</div>
+          <div>✅ Save Time: Review records in seconds, not minutes.</div>
+          <div>✅ Reduce Risk: Spot critical findings immediately.</div>
+          <div>✅ Improve Care: More patient time, less paperwork.</div>
+          <div>✅ Ease of Use: Simple interface for web and mobile.</div>
+          <div>✅ Easy Integration: Works with your current EHR.</div>
+          <div>✅ Trust & Reliability: Powered by Azure Health AI.</div>
         </div>
       </div>
       <div class="card">
@@ -292,7 +310,7 @@
   <!-- Preview / Tabs -->
   <section id="preview" class="section">
     <div class="container">
-      <h2>Product preview</h2>
+      <h2>Product Preview</h2>
       <div class="tabs" role="tablist" aria-label="Product views">
         <button class="tab active" role="tab" aria-selected="true">Dashboard</button>
         <button class="tab" role="tab" aria-selected="false">Patient View</button>
@@ -332,30 +350,28 @@
 
 
   <footer>
-    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap">
+    <div class="container footer-grid">
       <div>
-      <div class="brand" style="margin-bottom:8px">
-        <img src="images/healthSum_Icon.jpg" alt="HealthSum AI" />
-        <span>HealthSum AI</span>
+        <div class="brand" style="margin-bottom:8px">
+          <img src="images/healthSum_Icon.jpg" alt="HealthSum AI" />
+          <span>HealthSum AI</span>
+        </div>
+        <small>Copyright © <span id="year"></span> All rights reserved.</small>
       </div>
-      <small>Copyright © <span id="year"></span> All rights reserved.</small>
+      <div>
+        <strong>Product</strong>
+        <div><a href="#features">Features</a></div>
+        <div><a href="#preview">Preview</a></div>
       </div>
-      <div style="display:flex; gap:1rem">
-        <div>
-          <strong>Product</strong>
-          <div><a href="#features">Features</a></div>
-          <div><a href="#preview">Preview</a></div>
-        </div>
-        <div>
-          <strong>Company</strong>
-          <div><a href="#contact">Contact</a></div>
-          <div><a href="#social">FAQ</a></div>
-        </div>
-        <div>
-          <strong>Legal</strong>
-          <div><a href="#">Privacy</a></div>
-          <div><a href="#">Terms</a></div>
-        </div>
+      <div>
+        <strong>Company</strong>
+        <div><a href="#contact">Contact</a></div>
+        <div><a href="#social">Expert Perspectives</a></div>
+      </div>
+      <div>
+        <strong>Legal</strong>
+        <div><a href="#">Privacy</a></div>
+        <div><a href="#">Terms</a></div>
       </div>
     </div>
   </footer>
